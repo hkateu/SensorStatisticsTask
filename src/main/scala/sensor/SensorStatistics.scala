@@ -1,24 +1,20 @@
 package sensor
 import Sensor.{fetchFiles, readAll, SensorData}
 
-object SensorStatistics extends App {
+object SensorStatistics {
 
   /** folder is the relative path to the directory with sensor data
     */
   val folder = "src/main/scala/sensor/data"
 
-  println("Number of processed files: " + fetchFiles(folder).size)
-
   /** sensorData holds the fetched data stored as SensorData
     */
   val data = readAll(folder).flatMap(_.toList).map(_.asInstanceOf[SensorData])
-  println("Number of processed measurements: " + data.size)
 
   /** failed holds the number of Nones in the sequence which represent 'NaN'
     * values
     */
   val failed = data.filter(_.humidity == None).size
-  println("Number of failed measurements: " + failed)
 
   /** The data is then grouped by sensor-id for easy statitical calculations
     */
@@ -107,19 +103,11 @@ object SensorStatistics extends App {
     .toArray
     .sortWith((d1, d2) => Ordering[Option[Double]].gt(d1._3, d2._3))
 
-  println("")
-  println("")
-  println("Sensors with the highiest avg humidity:")
-  println("")
-  println("")
-  println("sensor-id, min, ave, max")
-
   /** formating minAveMax for printing to console
     */
-  minAveMax
+  val formatted = minAveMax
     .map { case (v, x, y, z) =>
       s"$v, ${x.getOrElse("NaN")}, ${y.getOrElse("NaN")}, ${z.getOrElse("NaN")}"
     }
-    .foreach(println)
 
 }
