@@ -5,7 +5,6 @@ import java.nio.file.Files
 import java.nio.charset.Charset
 import scala.jdk.CollectionConverters._
 import scala.util.Try
-import java.nio.Buffer
 
 object Sensor {
 
