@@ -104,10 +104,6 @@ This will pull all the files and folders onto you local machine.
 Change directory and run the program with sbt:
 
 ```
-cd sensorstatistics
-```
-
-```
 sbt run
 ```
 
