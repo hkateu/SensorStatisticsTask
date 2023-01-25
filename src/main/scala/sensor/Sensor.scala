@@ -5,21 +5,29 @@ import java.nio.file.Files
 import java.nio.charset.Charset
 import scala.jdk.CollectionConverters._
 import scala.util.Try
+import java.nio.file.NoSuchFileException
+import java.io.IOException
+import scala.collection.mutable.ArrayBuffer
+import java.io.Serializable
+import scala.collection.mutable.Buffer
 
 object Sensor {
 
-  /** SensorData will hold data imported from csv
+  /** The SensorData case class will hold data imported from csv
     */
   case class SensorData(id: String, humidity: Option[Double])
 
-  /** The fetchFiles() method returns a list of paths of the files in source
-    * folder
+  /** The fetchFiles() method returns a list of paths of the files in source or
+    * fail with an exception folder
     */
-  def fetchFiles(source: String) = {
+
+  def fetchFiles(source: String): Try[List[Path]] = {
     val filePath = Paths.get(source)
     val charSet = Charset.forName("UTF-8")
-    val dirStream = Files.newDirectoryStream(filePath).asScala.toList
-    dirStream
+    Try {
+      val dirStream = Files.newDirectoryStream(filePath).asScala.toList
+      dirStream
+    }
   }
 
   /** The readCsv method reads in data from a file path
@@ -48,6 +56,6 @@ object Sensor {
   /** The readAll method reads data from multiple paths
     */
   def readAll(sourceFolder: String) = {
-    fetchFiles(sourceFolder).map(readCsv)
+    fetchFiles(sourceFolder).toOption.getOrElse(List.empty).map(readCsv)
   }
 }

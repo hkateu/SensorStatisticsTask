@@ -5,14 +5,14 @@ import Sensor.{fetchFiles, readCsv, SensorData, readAll}
 import SensorStatistics.{folder}
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.nio.Buffer
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Try
 
 class SensorSpec extends AnyFlatSpec with Matchers {
   val folder = "src/test/scala/sensor/data"
 
-  "The fetchFiles method" should "return a list of Paths" in {
-    fetchFiles(folder) shouldBe an[List[Path]]
+  "The fetchFiles method" should "return a Try[List[Path]]" in {
+    fetchFiles(folder) shouldBe an[Try[List[Path]]]
   }
 
   "The readCsv method" should "return an ArrayBuffer of SensorData" in {
