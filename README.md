@@ -107,7 +107,7 @@ Change directory and run the program with sbt:
 sbt run
 ```
 
-The following should be be the output of the program:
+The following should be the output of the program:
 
 ```
    _____                              _____ _        _   _     _   _
